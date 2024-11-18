@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>콜백 지옥 경험하기</title>
+</head>
+<body>
+    <h1>배경색이 1초에 한번씩 변경이 됩니다.</h1>
+    <script>
+        // answer
+        function changeColor2(color){
+            return new Promise((resolve, reject)=>{
+                setTimeout(()=>{
+                    document.body.style.backgroundColor = color;
+                    resolve();
+                }, 1000)
+            })
+        }
+
+        // promise 객체 > then을 이용한 chaining
+        // changeColor2('red').then(()=>{
+        //     return changeColor2("orange");
+        // }).then(()=>{
+        //     return changeColor2('yellow');
+        // }).then(()=>{
+        //     return changeColor2("green");
+        // }).then(()=> changeColor2("blue"))
+
+        // async await
+        async function execute() {
+            await changeColor2("red");
+            await changeColor2("orange");
+            await changeColor2("yellow");
+            await changeColor2("blue");
+            await changeColor2("pink");
+        }
+
+        execute();
+
+        /*
+        function changeColor(nu) {
+            return new Promise(function(resolve, reject){
+                setTimeout(function(){
+                    let colors = ["red", "blue", "yellow", "green"];
+                    co = colors[nu];
+                    resolve("완료");
+                }, 1000);
+            });
+        }
+
+        function randomColor() {
+            document.body.style.background = `${co}`;
+        }
+        async function exec(){
+            try{
+                for (let i = 0 ; i< 4 ;i++) {
+                    await changeColor(i);
+                    randomColor();
+                }
+            }catch(err){
+                console.log(err);
+            }
+        }
+
+        let co;
+        exec();
+        
+    */
+        
+    </script>
+    
+</body>
+</html>
