@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실습문제1</title>
+    <!-- axios CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>실습1</h1>
+    <form name="register">
+        <label>
+            이름 <input type="text" name="name"/>
+        </label>
+        <br/>
+        <br/>
+        <span>성별</span>
+        <br/>
+        <label>
+            <input type="radio" name="gender" value="남자"/> 남자
+        </label>
+        <label>
+            <input type="radio" name="gender" value="여자"/> 여자
+        </label>
+        <br/>
+        <br/>
+        <span>생년월일</span>
+        <br/>
+        <label>
+            <select name="age" id = "year">
+                <% for(let i=1980; i <= 2010 ; i++) {%>
+                <option value="<%=i%>"><%=i%></option>
+                <% } %>
+            </select> 년
+        </label>
+        <label>
+            <select name="age" id = "month">
+                <% for(let i=1; i <= 12 ; i++) {%>
+                <option value="<%=i%>"><%=i%></option>
+                <% } %>
+            </select> 월
+        </label>
+        <label>
+            <select name="age" id = "day">
+                <% for(let i=1; i <= 31; i++) {%>
+                <option value="<%=i%>"><%=i%></option>
+                <% } %>
+            </select> 일
+        </label>
+        <br/>
+        <br/>
+        <span>관심사</span>
+        <br/>
+    
+        <label>
+            <input type="checkbox" name="interest" value="여행"/>여행
+        </label>
+        <label>
+            <input type="checkbox" name="interest" value="패션"/>패션
+        </label>
+        <label>
+            <input type="checkbox" name="interest" value="음식"/>음식
+        </label>
+        <br/>
+        <br/>
+        <button type="button" onclick="axiosGet();">제출(axios get)</button>
+        <br/>
+        <div class="result"></div>
+    </form>
+
+    <script>
+        const resultText = document.querySelector(".result");
+        async function axiosGet() {
+            const form = document.forms["register"];
+
+            console.log(form.interest);
+
+            const fav = [];
+
+            for (let fa of form.interest) {
+                if (fa.checked) {
+                    fav.push(fa.value);
+                }
+            }
+            const data = {
+                name: form.name.value,
+                gender: form.gender.value,
+                interest: fav,
+            };
+            try{
+                const response = await axios({
+                    method:'get',
+                    url: `/axiospra`,
+                    params : data
+                })
+                console.log(response.data);
+                resultText.textContent = `${response.data.name}님 환영합니다! 가입이 완료되었습니다. 야호! 취미는 ${response.data.interest}`;
+            } catch(err) {
+                console.error(err)
+            }
+        }
+    
+    </script>
+
+</body>
+</html>
