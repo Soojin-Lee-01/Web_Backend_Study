@@ -37,12 +37,12 @@
                 img.width = 400;
             });
         }
-    // http://www.omdbapi.com/?apikey=2e2df2bd&s=
-    // apikey : 2e2df2bd
+    // http://www.omdbapi.com/?apikey=[apikey]&s=
+    // apikey : ~~~
     const word = "disney";
     axios({
         method: 'get',
-        url: 'http://www.omdbapi.com/?apikey=2e2df2bd&s=' + word
+        url: 'http://www.omdbapi.com/?apikey=[apikey]&s=' + word
     }).then((res)=>{
         console.log(res.data); // {Search, totalResults, Response}
         
