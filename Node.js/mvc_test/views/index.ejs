@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVC 공부</title>
+    <!-- Axios CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        label {
+          display: flex;
+        }
+  
+        label span {
+          width: 80px;
+        }
+  
+        .success {
+          color: blue;
+          font-size: 1.2rem;
+          font-weight: 700;
+        }
+  
+        .error {
+          color: red;
+          font-size: 1.2rem;
+          font-weight: 700;
+        }
+      </style>
+
+</head>
+<body>
+    <form name = "login">
+        <label for="userID">
+            <span>아이디</span>
+            <input type="text" name="userId" id="userId" required>
+        </label>
+        <br/>
+        <label for="userPw">
+            <span>비밀번호</span>
+            <input type="password" name="userPw" id="userPw" required>
+        </label>
+        <br/> <br/>
+        <button type="button" onclick="clickLogin()">로그인</button>
+    </form>
+    <div class="login-result"></div>
+    
+</body>
+
+<script>
+    function clickLogin() {
+        const form = document.forms["login"];
+        const loginResult = document.querySelector(".login-result");
+        const data = {
+            userId : form.userId.value,
+            userPw : form.userPw.value,
+        };
+
+        console.log(data);
+
+        // 유효성 검증을 하자
+        if (!form.userId.checkValidity() || !form.userPw.checkValidity()) {
+            loginResult.innerText = "아이디와 비밀번호는 필수로 입력해주세요.";
+            return;
+        }
+        axios({
+            url : "/login",
+            method : "post",
+            data : data,
+        }).then((res)=>{
+            console.log(res.data);
+            if (res.data.isSuccess) {
+                loginResult.textContent = `${res.data.userId}님 안녕하세요 :0`;
+                loginResult.classList.add("success");
+                loginResult.classList.remove("error");
+            } else {
+                loginResult.textContent = "아이디 또는 비밀번호가 오류입니다 :(";
+                loginResult.classList.add("error");
+                loginResult.classList.remove("success");
+            }
+        });
+    };
+</script>
+</html>
